@@ -1,0 +1,331 @@
+/* ============================================
+   Hero — Full-bleed editorial split
+   ============================================ */
+
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+/* ── Grain overlay ── */
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ── Vertical side label ── */
+.sideLabel {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-dm-sans, "DM Sans", sans-serif);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: #444;
+  text-transform: uppercase;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ============================================
+   Left content column
+   ============================================ */
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 0 4rem 72px;
+}
+
+/* Radial vignette — draws eye toward name */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.text {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Display name ── */
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0 0 0.75rem;
+  /* Bleed 40px into image column */
+  margin-right: -40px;
+  line-height: 0.9;
+}
+
+.titleSam {
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(3rem, 13vw, 14rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: #f5f0e8;
+  display: block;
+}
+
+.titleSuen {
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(3rem, 13vw, 14rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 1.5px #f5f0e8;
+  color: transparent;
+  display: block;
+}
+
+/* Ensure stroke persists on GSAP split chars */
+.titleSuen :global(.split-char) {
+  -webkit-text-stroke: 1.5px #f5f0e8;
+  color: transparent;
+}
+
+/* ── Accent rule under SUEN ── */
+.rule {
+  width: 72px;
+  height: 2px;
+  background: #7b1f1f;
+  margin: 1.4rem 0 2rem;
+  border-radius: 2px;
+}
+
+/* ── Body copy ── */
+.subtitle {
+  font-family: var(--font-dm-sans, "DM Sans", sans-serif);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #a0a0a0;
+  max-width: 38ch;
+  margin: 0 0 2.5rem;
+}
+
+/* ── CTA row ── */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Primary: text + arrow, animated underline */
+.btnPrimary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.btnPrimary::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #f5f0e8;
+  transition: width 0.4s ease;
+}
+
+.btnPrimary:hover::after {
+  width: calc(100% - 1.8rem); /* stop before the arrow */
+}
+
+.btnText {
+  font-family: var(--font-dm-sans, "DM Sans", sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+}
+
+.btnArrow {
+  font-size: 18px;
+  color: #7b1f1f;
+  display: inline-block;
+  transition: transform 0.3s ease, color 0.3s ease;
+  line-height: 1;
+}
+
+.btnPrimary:hover .btnArrow {
+  transform: translateX(4px);
+  color: #9b2525;
+}
+
+/* Secondary: circular ghost button */
+.btnCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #2a2a2a;
+  color: #555;
+  font-size: 16px;
+  text-decoration: none;
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btnCircle:hover {
+  border-color: #7b1f1f;
+  color: #f5f0e8;
+  background: rgba(123, 31, 31, 0.08);
+}
+
+/* ============================================
+   Right image column — bleeds to viewport edge
+   ============================================ */
+
+.imageCol {
+  position: relative;
+  z-index: 1;
+  /* NO overflow:hidden — let the light bleed outward */
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* No padding, no border gradient */
+}
+
+/* ── Deep light leak — sits BEHIND the image, bleeds far out ── */
+.imageWrapper::before {
+  content: "";
+  position: absolute;
+  inset: -80px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* hot core top-right — where stage light would spill */
+    radial-gradient(ellipse 55% 40% at 75% 20%, rgba(210, 55, 15, 0.55), transparent 65%),
+    /* secondary bloom mid-left — bleeds toward the text */
+    radial-gradient(ellipse 45% 55% at 20% 55%, rgba(170, 35, 10, 0.35), transparent 60%),
+    /* warm floor glow bottom */
+    radial-gradient(ellipse 70% 35% at 50% 100%, rgba(140, 25, 5, 0.3), transparent 65%),
+    /* wide ambient warmth */
+    radial-gradient(ellipse 90% 80% at 55% 45%, rgba(100, 15, 5, 0.18), transparent 75%);
+  filter: blur(48px);
+}
+
+/* ── Close-edge soft glow — tight halo right on the image border ── */
+.imageWrapper::after {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 30% at 80% 15%, rgba(230, 70, 20, 0.3), transparent 60%),
+    radial-gradient(ellipse 30% 50% at 5%  50%, rgba(190, 45, 15, 0.25), transparent 55%);
+  filter: blur(18px);
+}
+
+.imageInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  /* Edge shadow — deepens the light-bleed contrast */
+  box-shadow:
+    -40px 0   80px rgba(190, 50, 15, 0.2),
+     0    0  120px rgba(160, 35, 10, 0.15),
+     0   40px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Scroll indicator ── */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, #a0a0a0, transparent);
+  animation: scrollPulse 2.2s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.5); }
+  50%       { opacity: 0.7;  transform: scaleY(1); }
+}
+
+/* ============================================
+   Mobile
+   ============================================ */
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: 52vh auto;
+  }
+
+  /* Image row first, then text */
+  .imageCol {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .imageWrapper {
+    border-radius: 0;
+    padding: 0;
+    background: none;
+  }
+  .imageInner { border-radius: 0; }
+
+  .content {
+    grid-row: 2;
+    grid-column: 1;
+    padding: 2.5rem 1.5rem 4rem 1.5rem;
+  }
+
+  .title { margin-right: 0; }
+
+  .titleSam,
+  .titleSuen {
+    font-size: clamp(4.5rem, 20vw, 8rem);
+  }
+
+  .subtitle { font-size: 16px; }
+
+  .sideLabel { display: none; }
+}

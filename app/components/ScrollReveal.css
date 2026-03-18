@@ -1,0 +1,12 @@
+.scroll-reveal {
+  will-change: transform;
+}
+
+.scroll-reveal-text {
+  display: block;
+}
+
+.scroll-reveal-word {
+  display: inline;
+  will-change: opacity, filter;
+}

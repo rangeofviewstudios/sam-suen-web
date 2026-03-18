@@ -1,84 +1,189 @@
 /* ============================================
-   Footer
+   Footer — Big-name layout with live clock
    ============================================ */
 
 .footer {
-  padding: 4rem var(--container-padding) 2.5rem;
-  border-top: 1px solid var(--color-border);
+  padding: 5rem var(--container-padding) 2.5rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .footer-container {
   max-width: var(--container-max);
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── Top row ── */
 .footer-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
 }
 
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.footer-logo {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-text);
-}
-
-.footer-tagline {
-  font-size: 0.8rem;
-  font-weight: 300;
-  color: var(--color-text-subtle);
-}
-
+/* ── Nav: large stacked links ── */
 .footer-nav {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .footer-nav a {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(0.8rem, 2.8vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  transition: color 0.4s var(--ease-out-expo);
+  transition: color 0.3s var(--ease-out-expo),
+              transform 0.3s var(--ease-out-expo);
+  display: inline-block;
+  line-height: 1.2;
 }
 
 .footer-nav a:hover {
   color: var(--color-text);
+  transform: translateX(6px);
 }
 
+/* ── Contact ── */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.footer-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.72);
+  transition: color 0.3s var(--ease-out-expo),
+              transform 0.3s var(--ease-out-expo);
+}
+
+.footer-contact-link:hover {
+  color: var(--color-text);
+  transform: translateX(-4px);
+}
+
+.footer-contact-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+  margin: 0.4rem 0;
+}
+
+.footer-contact-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity 0.3s var(--ease-out-expo);
+}
+
+.footer-contact-link:hover .footer-contact-icon {
+  opacity: 1;
+}
+
+/* ── Live clock ── */
+.footer-clock-row {
+  margin-bottom: 0.25rem;
+}
+
+.footer-clock {
+  display: block;
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── Giant name ── */
+.footer-bigname-wrap {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0.88;
+  margin-bottom: 0;
+}
+
+.footer-bigname {
+  display: block;
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(3rem, 18vw, 18rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  line-height: 0.88;
+}
+
+/* ── Divider ── */
 .footer-divider {
   width: 100%;
   height: 1px;
   background: var(--color-border);
-  margin-bottom: 2rem;
+  margin: 2rem 0 1.5rem;
 }
 
+/* ── Bottom bar ── */
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .footer-copy {
-  font-size: 0.7rem;
-  color: var(--color-text-subtle);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
 }
 
-.footer-credits {
-  font-size: 0.7rem;
-  color: var(--color-text-subtle);
+/* ── ROV branding lockup ── */
+.footer-rov {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer-rov-text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.footer-rov-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.8;
+  vertical-align: middle;
+  transition: opacity 0.3s var(--ease-out-expo);
+}
+
+.footer-rov:hover .footer-rov-logo {
+  opacity: 1;
 }
 
 /* ============================================
@@ -87,12 +192,21 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding: 3rem 1.25rem 2rem;
+    padding: 3.5rem 1.25rem 2rem;
   }
 
   .footer-top {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-contact {
+    align-items: flex-start;
+  }
+
+  .footer-bigname {
+    font-size: clamp(3.5rem, 18vw, 18rem);
   }
 
   .footer-bottom {

@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { useReveal } from "../hooks/useReveal";
+import ScrollReveal from "./ScrollReveal";
 import "./NextShow.css";
 
 export default function NextShow() {
   const r1 = useReveal();
   const r2 = useReveal();
-  const r3 = useReveal();
+  const r3 = useReveal(); // kept for containerClassName reveal
   const r4 = useReveal();
 
   return (
@@ -36,13 +37,18 @@ export default function NextShow() {
           >
             Coming Soon
           </h2>
-          <p
-            ref={r3.ref}
-            className={`next-show-details reveal-up delay-2 ${r3.isVisible ? "visible" : ""}`}
+          <ScrollReveal
+            as="p"
+            containerClassName={`next-show-details reveal-up delay-2 ${r3.isVisible ? "visible" : ""}`}
+            baseOpacity={0.08}
+            enableBlur
+            baseRotation={2}
+            blurStrength={4}
+            wordAnimationEnd="center center"
+            rotationEnd="center center"
           >
-            Stay tuned for upcoming show dates and ticket information. Follow on
-            socials for the latest announcements.
-          </p>
+            Stay tuned for upcoming show dates and ticket information. Follow on socials for the latest announcements.
+          </ScrollReveal>
           <div
             ref={r4.ref}
             className={`next-show-info reveal-up delay-3 ${r4.isVisible ? "visible" : ""}`}
@@ -56,11 +62,16 @@ export default function NextShow() {
             </div>
             <div className="show-info-item">
               <span className="show-info-label">Based in</span>
-              <span className="show-info-value">Philadelphia, PA</span>
+              <span className="show-info-value">Atlanta, GA</span>
             </div>
             <div className="show-info-item">
               <span className="show-info-label">Inquiries</span>
-              <span className="show-info-value">Management</span>
+              <a
+                href="mailto:rangeofviewmusic@gmail.com"
+                className="show-info-value show-info-cta"
+              >
+                rangeofviewmusic@gmail.com
+              </a>
             </div>
           </div>
         </div>

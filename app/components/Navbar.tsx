@@ -1,63 +1,144 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { User, Users, CalendarDays, Images, Home } from "lucide-react";
 import "./Navbar.css";
+
+const NAV_ITEMS = [
+  { name: "Home",    url: "#hero",      icon: Home },
+  { name: "About",   url: "#about",     icon: User },
+  { name: "Team",    url: "#team",      icon: Users },
+  { name: "Shows",   url: "#next-show", icon: CalendarDays },
+  { name: "Contact", url: "#portfolio", icon: Images },
+];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive]     = useState("Home");
+  const [hovered, setHovered]   = useState<string | null>(null);
+  const [mounted, setMounted]   = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
+    const map: Record<string, string> = {
+      hero: "Home", about: "About", team: "Team",
+      "next-show": "Shows", portfolio: "Contact",
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observers: IntersectionObserver[] = [];
+    Object.keys(map).forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActive(map[id]); },
+        { threshold: 0.35 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
-  const closeMenu = () => setMenuOpen(false);
+  const indicator = hovered ?? active;
 
   return (
     <>
-      <nav className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
-        <div className="nav-inner">
-          <a href="#hero" className="nav-logo" onClick={closeMenu}>
-            SAM SUEN
-          </a>
-          <button
-            className={`nav-toggle ${menuOpen ? "nav-toggle--active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <span />
-            <span />
-          </button>
-          <div className="nav-links">
-            <a href="#about" className="nav-link">About</a>
-            <a href="#team" className="nav-link">Team</a>
-            <a href="#next-show" className="nav-link">Next Show</a>
-            <a href="#portfolio" className="nav-link">Portfolio</a>
-          </div>
-        </div>
-      </nav>
+      {/* Scroll progress bar */}
+      <motion.div className="nav-progress" style={{ scaleX }} />
 
-      <div className={`mobile-menu ${menuOpen ? "mobile-menu--open" : ""}`}>
-        <div className="mobile-menu-inner">
-          {["About", "Team", "Next Show", "Portfolio"].map((item, i) => (
+      {/* Main nav pill */}
+      <motion.nav
+        className="nav"
+        style={{ x: "-50%" }}
+        initial={{ y: -72, opacity: 0 }}
+        animate={mounted ? { y: 0, opacity: 1 } : {}}
+        transition={{ duration: 0.65, ease: [0.32, 0.72, 0, 1] }}
+      >
+        {/* Links */}
+        <div className="nav-links" onMouseLeave={() => setHovered(null)}>
+          {NAV_ITEMS.map(({ name, url, icon: Icon }) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase().replace(" ", "-")}`}
-              className="mobile-link"
-              style={{ transitionDelay: menuOpen ? `${i * 0.07 + 0.15}s` : "0s" }}
-              onClick={closeMenu}
+              key={name}
+              href={url}
+              className={`nav-link ${active === name ? "nav-link--active" : ""}`}
+              onMouseEnter={() => setHovered(name)}
             >
-              {item}
+              {/* Sliding pill + tubelight */}
+              {indicator === name && (
+                <motion.span
+                  layoutId="nav-lamp"
+                  className="nav-lamp"
+                  transition={{ type: "spring", stiffness: 360, damping: 34 }}
+                >
+                  {/* Glow bar only shows on the active (not just hovered) item */}
+                  {active === name && (
+                    <span className="nav-lamp-glow" />
+                  )}
+                </motion.span>
+              )}
+
+              {/* Desktop: text */}
+              <span className="nav-link-label">{name}</span>
+
+              {/* Mobile: icon */}
+              <span className="nav-link-icon">
+                <Icon size={16} strokeWidth={2.5} />
+              </span>
             </a>
           ))}
         </div>
-      </div>
+
+        {/* Hamburger */}
+        <button
+          className={`nav-toggle ${menuOpen ? "nav-toggle--active" : ""}`}
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label="Toggle menu"
+        >
+          <span /><span />
+        </button>
+      </motion.nav>
+
+      {/* Mobile fullscreen overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="mobile-menu-bg" />
+            <nav className="mobile-menu-inner">
+              {NAV_ITEMS.map(({ name, url }, i) => (
+                <motion.a
+                  key={name}
+                  href={url}
+                  className="mobile-link"
+                  initial={{ opacity: 0, x: -40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4, delay: i * 0.06, ease: [0.32, 0.72, 0, 1] }}
+                  onClick={() => { setMenuOpen(false); setActive(name); }}
+                >
+                  <span className="mobile-link-num">0{i + 1}</span>
+                  {name}
+                </motion.a>
+              ))}
+            </nav>
+            <motion.p
+              className="mobile-menu-footer"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+            >
+              Atlanta, GA · Hip-Hop · Est. 2024
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

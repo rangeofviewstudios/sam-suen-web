@@ -1,33 +1,135 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { FiInstagram, FiMail } from "react-icons/fi";
+import { SiSpotify, SiApplemusic } from "react-icons/si";
+import Ribbons from "./Ribbons";
 import "./Footer.css";
+
+function AtlantaClock() {
+  const [display, setDisplay] = useState("");
+
+  useEffect(() => {
+    function tick() {
+      const now = new Date();
+      const atl = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).formatToParts(now);
+
+      const get = (t: string) => atl.find((p) => p.type === t)?.value ?? "00";
+      const date = `D${get("year")}-${get("month")}-${get("day")}`;
+      const time = `T${get("hour")}:${get("minute")}:${get("second")}`;
+      setDisplay(`${date} ${time}`);
+    }
+
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return <span className="footer-clock">{display}</span>;
+}
 
 export default function Footer() {
   return (
     <footer className="footer">
+      {/* Ribbon background — design-system colours, subtle opacity */}
+      <Ribbons
+        colors={["#7b1f1f", "rgba(245,240,232,0.18)"]}
+        baseSpring={0.025}
+        baseFriction={0.88}
+        baseThickness={22}
+        offsetFactor={0.06}
+        maxAge={420}
+        pointCount={40}
+        speedMultiplier={0.45}
+        enableFade
+        enableShaderEffect
+        effectAmplitude={2.5}
+      />
       <div className="footer-container">
+
+        {/* Top row: nav left, contact right */}
         <div className="footer-top">
-          <div className="footer-brand">
-            <span className="footer-logo">SAM SUEN</span>
-            <p className="footer-tagline">
-              Philadelphia. Hip-Hop. Authenticity.
-            </p>
-          </div>
-          <div className="footer-nav">
+          <nav className="footer-nav">
             <a href="#about">About</a>
             <a href="#team">Team</a>
             <a href="#next-show">Shows</a>
             <a href="#portfolio">Portfolio</a>
+          </nav>
+          <div className="footer-contact">
+            <a
+              href="https://instagram.com/samsuen"
+              className="footer-contact-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FiInstagram className="footer-contact-icon" />
+              Instagram
+            </a>
+            <a
+              href="https://open.spotify.com"
+              className="footer-contact-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <SiSpotify className="footer-contact-icon" />
+              Spotify
+            </a>
+            <a
+              href="https://music.apple.com"
+              className="footer-contact-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <SiApplemusic className="footer-contact-icon" />
+              Apple Music
+            </a>
+            <div className="footer-contact-divider" />
+            <a
+              href="mailto:rangeofviewmusic@gmail.com"
+              className="footer-contact-link"
+            >
+              <FiMail className="footer-contact-icon" />
+              rangeofviewmusic@gmail.com
+            </a>
           </div>
         </div>
+
+        {/* Live Atlanta clock */}
+        <div className="footer-clock-row">
+          <AtlantaClock />
+        </div>
+
+        {/* Giant name */}
+        <div className="footer-bigname-wrap">
+          <span className="footer-bigname">SAM SUEN</span>
+        </div>
+
+        {/* Divider + bottom bar */}
         <div className="footer-divider" />
         <div className="footer-bottom">
-          <p className="footer-copy">
-            &copy; 2026 Sam Suen. All rights reserved.
-          </p>
-          <p className="footer-credits">
-            Photography by Granger Wang &mdash; Managed by Rana Arshad &mdash;
-            Mixed by Ayush Basu
-          </p>
+          <p className="footer-copy">&copy; 2026 Sam Suen. All rights reserved.</p>
+          <div className="footer-rov">
+            <span className="footer-rov-text">Curated with intention by</span>
+            <Image
+              src="/images/rovbrownlogo.png"
+              alt="ROV"
+              width={200}
+              height={80}
+              className="footer-rov-logo"
+            />
+          </div>
         </div>
+
       </div>
     </footer>
   );

@@ -48,26 +48,23 @@
   padding: 8rem var(--container-padding);
 }
 
-.next-show-eyebrow {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-}
+/* inherits section-eyebrow — no override needed */
 
 .next-show-title {
-  font-family: var(--font-sans);
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  font-family: var(--font-bebas, "Bebas Neue", sans-serif);
+  font-size: clamp(2.5rem, 11vw, 9rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
   color: var(--color-text);
   margin-bottom: 1.25rem;
 }
 
 .next-show-details {
+  font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--color-text-muted);
   margin-bottom: 3rem;
   max-width: 48ch;
@@ -95,7 +92,7 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-text-subtle);
+  color: rgba(245, 240, 232, 0.5);
 }
 
 .show-info-value {
@@ -105,6 +102,21 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.show-info-cta {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: rgba(245, 240, 232, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(245, 240, 232, 0.25);
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+.show-info-cta:hover {
+  color: var(--color-text);
+  text-decoration-color: rgba(245, 240, 232, 0.6);
 }
 
 /* Pulse Dot */
