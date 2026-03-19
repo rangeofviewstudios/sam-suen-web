@@ -118,7 +118,7 @@ export default function Footer() {
         <div className="footer-divider" />
         <div className="footer-bottom">
           <p className="footer-copy">&copy; 2026 Sam Suen. All rights reserved.</p>
-          <div className="footer-rov">
+          <a href="https://www.rovstudios.com/" target="_blank" rel="noopener noreferrer" className="footer-rov">
             <span className="footer-rov-text">Curated with intention by</span>
             <Image
               src="/images/rovbrownlogo.png"
@@ -127,7 +127,7 @@ export default function Footer() {
               height={80}
               className="footer-rov-logo"
             />
-          </div>
+          </a>
         </div>
 
       </div>

@@ -57,7 +57,7 @@ const ThreeDMarquee = ({ images = [], className }: ThreeDMarqueeProps) => {
                 {subarray.map((src, imageIndex) => (
                   <div className='relative' key={imageIndex + src}>
                     <img
-                      className='aspect-[4/3] h-full w-full rounded-lg object-cover select-none'
+                      className='aspect-[3/4] h-full w-full rounded-lg object-cover object-top select-none'
                       src={src}
                       draggable={false}
                       alt={`Sam Suen ${imageIndex + 1}`}
