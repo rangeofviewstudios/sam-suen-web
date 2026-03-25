@@ -167,8 +167,12 @@
   }
 
   .mv-strip {
-    height: clamp(160px, 28vw, 220px);
+    height: clamp(160px, 40vw, 240px);
     border-radius: var(--radius-lg);
+  }
+
+  .mv-strip--expanded {
+    height: clamp(220px, 50vh, 400px);
   }
 
   .mv-content {
@@ -176,4 +180,7 @@
     bottom: 1.25rem;
   }
 
+  .mv-title {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
 }

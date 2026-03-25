@@ -310,7 +310,20 @@
     padding: 0;
     background: none;
   }
-  .imageInner { border-radius: 0; }
+  .imageWrapper::before {
+    inset: -40px;
+    filter: blur(32px);
+  }
+  .imageWrapper::after {
+    inset: -12px;
+    filter: blur(12px);
+  }
+  .imageInner {
+    border-radius: 0;
+    box-shadow:
+      0 0 40px rgba(190, 50, 15, 0.15),
+      0 20px 40px rgba(0, 0, 0, 0.4);
+  }
 
   .content {
     grid-row: 2;
@@ -325,7 +338,9 @@
     font-size: clamp(4.5rem, 20vw, 8rem);
   }
 
-  .subtitle { font-size: 16px; }
+  .subtitle { font-size: 16px; max-width: 100%; }
 
   .sideLabel { display: none; }
+
+  .scrollIndicator { display: none; }
 }

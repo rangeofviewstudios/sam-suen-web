@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Space_Mono } from "next/font/google";
+import Image from "next/image";
 import TeamPhoto from "./TeamPhoto";
 import ShinyText from "./ShinyText";
 import styles from "./Team.module.css";
@@ -17,32 +18,34 @@ interface TeamMember {
   funFact: string;
   role: string;
   imageSrc: string;
+  link?: string;
 }
 
 const members: TeamMember[] = [
   {
     name: "Sam Suen",
     funFact: "Opened for Ted Park at 19",
-    role: "Artist",
+    role: "Artist / Performer",
     imageSrc: "/images/rapping1.jpeg",
   },
   {
     name: "Granger Wang",
     funFact: "Shoots on film too",
-    role: "Photographer",
-    imageSrc: "https://placehold.co/300x400/111111/444444?text=+",
+    role: "Photographer / Media",
+    imageSrc: "/images/grangerheadshot.webp",
   },
   {
     name: "Rana Arshad",
     funFact: "Makes the moves happen",
-    role: "Manager",
-    imageSrc: "https://placehold.co/300x400/111111/444444?text=+",
+    role: "Manager / Operations",
+    imageSrc: "/images/rana headshot.webp",
   },
   {
     name: "Ayush Basu",
     funFact: "Mixes in the dark",
-    role: "Engineer",
+    role: "Mixing / Mastering / Recording",
     imageSrc: "/images/basuteampic.webp",
+    link: "https://www.ayushbasu.com/",
   },
 ];
 
@@ -86,10 +89,16 @@ export default function Team() {
               <div
                 key={m.name}
                 className={`${styles.cardSlot} ${isActive ? styles.cardSlotActive : ""} ${isDimmed ? styles.cardSlotDimmed : ""}`}
-                style={{ marginTop: i % 2 === 1 ? "160px" : "0px" }}
+                style={{ marginTop: i % 2 === 1 ? "120px" : "0px" }}
                 onClick={() => setActive(active === i ? null : i)}
               >
-                <TeamPhoto imageSrc={m.imageSrc} name={m.name} width={260} height={340} />
+                {m.link ? (
+                  <a href={m.link} target="_blank" rel="noopener noreferrer">
+                    <TeamPhoto imageSrc={m.imageSrc} name={m.name} width={220} height={290} />
+                  </a>
+                ) : (
+                  <TeamPhoto imageSrc={m.imageSrc} name={m.name} width={220} height={290} />
+                )}
                 <div className={styles.cardInfo}>
                   <p className={styles.cardName}>{m.name}</p>
                   <p className={styles.cardMeta}>
@@ -117,6 +126,27 @@ export default function Team() {
             );
           })}
         </div>
+
+        {/* Creative partners banner */}
+        <a
+          href="https://www.rovstudios.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.partnerBanner}
+          style={{ textDecoration: "none" }}
+        >
+          <p className={styles.partnerText}>Creative partners with</p>
+          <div className={styles.partnerLogoWrap} style={{ position: "relative" }}>
+            <Image
+              src="/images/rovbrownlogo.png"
+              alt="Range of View"
+              width={200}
+              height={200}
+              style={{ objectFit: "contain" }}
+            />
+            <span className={styles.partnerShine} />
+          </div>
+        </a>
       </div>
     </section>
   );

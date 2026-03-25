@@ -198,6 +198,7 @@
 @media (max-width: 768px) {
   .about {
     padding: 5rem 1.25rem;
+    overflow-x: clip;
   }
 
   .about-container {
@@ -206,7 +207,17 @@
   }
 
   .about-image-col {
-    max-width: 400px;
+    max-width: 100%;
+  }
+
+  .about-image-shell::before {
+    inset: -30px;
+    filter: blur(30px);
+  }
+
+  .about-image-shell::after {
+    inset: -10px;
+    filter: blur(10px);
   }
 
   .about-image-accent {
@@ -216,5 +227,13 @@
     width: 60%;
     margin-left: auto;
     margin-top: -3rem;
+  }
+
+  .about-text-col {
+    padding-top: 0;
+  }
+
+  .about-tagline {
+    font-size: 0.95rem;
   }
 }

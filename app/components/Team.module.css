@@ -115,13 +115,16 @@
 .row {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 28px;
   padding-bottom: 160px; /* room for the stagger offset */
 }
 
 /* ── Card slot ── */
 .cardSlot {
-  flex-shrink: 0;
+  flex: 1 1 0;
+  max-width: 220px;
+  min-width: 0;
   cursor: pointer;
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
               opacity 0.35s ease,
@@ -185,6 +188,70 @@
   letter-spacing: 0.05em;
 }
 
+/* ── Creative partners banner ── */
+.partnerBanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 0 40px;
+}
+
+.partnerText {
+  font-family: var(--font-space-mono, "Space Mono", monospace);
+  font-size: 18px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.partnerLogoWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.65;
+  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+  animation: partnerFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 0px transparent);
+}
+
+.partnerLogoWrap:hover {
+  opacity: 1;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 20px rgba(160, 120, 80, 0.35))
+          drop-shadow(0 0 40px rgba(160, 120, 80, 0.15));
+}
+
+@keyframes partnerFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes partnerShine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.partnerShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(245, 230, 210, 0.15) 48%,
+    rgba(245, 230, 210, 0.25) 50%,
+    rgba(245, 230, 210, 0.15) 52%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: partnerShine 6s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: 8px;
+}
+
 /* ============================================
    Mobile
    ============================================ */
@@ -199,13 +266,20 @@
 
   .nav { width: 100%; justify-content: space-between; }
 
-  .navBtn { flex: 1; justify-content: center; gap: 4px; padding: 6px 10px; }
+  .navBtn { flex: 1; justify-content: center; gap: 4px; padding: 6px 10px; font-size: 10px; }
 
   .row {
     flex-direction: column;
     align-items: center;
     overflow-x: visible;
     padding-bottom: 0;
+    gap: 32px;
   }
-  .cardSlot { margin-top: 0 !important; }
+  .cardSlot { margin-top: 0 !important; max-width: 260px; width: 100%; }
+
+  .cardName { font-size: 14px; }
+  .cardFact, .cardRole { font-size: 10px; }
+
+  .partnerBanner { padding: 10px 0 20px; }
+  .partnerText { font-size: 13px; letter-spacing: 0.15em; }
 }

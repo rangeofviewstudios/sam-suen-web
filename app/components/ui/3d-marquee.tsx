@@ -20,7 +20,7 @@ const ThreeDMarquee = ({ images = [], className }: ThreeDMarqueeProps) => {
 
   return (
     <div
-      className={cn('relative mx-auto block h-[560px] w-full overflow-hidden', className)}
+      className={cn('relative mx-auto block h-[380px] md:h-[560px] w-full overflow-hidden', className)}
       style={{
         maskImage: [
           'linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)',
@@ -35,7 +35,7 @@ const ThreeDMarquee = ({ images = [], className }: ThreeDMarqueeProps) => {
       }}
     >
       <div className='flex size-full items-center justify-center'>
-        <div className='aspect-square w-[720px] shrink-0 scale-[1.35]'>
+        <div className='aspect-square w-[480px] md:w-[720px] shrink-0 scale-[1.35]'>
           <div
             style={{
               transform: 'rotateX(45deg) rotateY(0deg) rotateZ(45deg)',
